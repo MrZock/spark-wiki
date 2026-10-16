@@ -1,0 +1,521 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SPARK Wiki</title>
+<meta name="description" content="Das Wiki zu SPARK: Launcher, BLACKOUT und SPARK Chat – Anleitungen, Steuerung, Gebäude, Gegner, Tipps und Hilfe.">
+<meta name="theme-color" content="#05060b">
+<link rel="icon" type="image/png" href="assets/spark-icon.png">
+<style>
+  :root {
+    --bg: #05060b; --panel: rgba(10, 12, 20, .86); --glass: rgba(14, 17, 28, .7); --line: rgba(120, 200, 255, .13); --text: #eef2fb; --dim: #a3abc0; --faint: #5f6880;
+    --amber: #ffc93c; --orange: #ff6a1f; --cyan: #2ee6ff; --ok: #4ff0a0; --bad: #ff6b6b;
+    --f-head: Bahnschrift, "DIN Alternate", "Arial Narrow", "Segoe UI", system-ui, sans-serif; --f-body: "Segoe UI Variable Text", "Segoe UI", system-ui, -apple-system, Roboto, sans-serif; --f-mono: "Cascadia Mono", Consolas, "SF Mono", Menlo, monospace;
+    --cut: polygon(14px 0, 100% 0, 100% calc(100% - 14px), calc(100% - 14px) 100%, 0 100%, 0 14px);
+    --cut-s: polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px);
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; color: var(--text); font: 400 16.5px/1.65 var(--f-body);
+    background: radial-gradient(900px 520px at 85% -10%, rgba(255, 106, 31, .13), transparent 62%), radial-gradient(700px 500px at -5% 40%, rgba(46, 230, 255, .09), transparent 60%), var(--bg); background-attachment: fixed; }
+  a { color: var(--cyan); }
+  .label { font: 500 11px var(--f-mono); letter-spacing: 2.5px; color: var(--cyan); text-transform: uppercase; }
+  /* Kopf */
+  .top { position: sticky; top: 0; z-index: 20; display: flex; align-items: center; gap: 18px; height: 60px; padding: 0 20px; background: rgba(5, 6, 11, .8); backdrop-filter: blur(14px); border-bottom: 1px solid var(--line); }
+  .brand { display: flex; align-items: center; gap: 10px; font: 900 18px var(--f-head); letter-spacing: 5px; color: var(--text); text-decoration: none; white-space: nowrap; }
+  .brand img { width: 26px; height: 26px; filter: drop-shadow(0 0 8px rgba(255, 150, 40, .9)); }
+  .brand span { color: var(--orange); }
+  .search { flex: 1; max-width: 460px; height: 38px; padding: 0 14px; color: var(--text); font: inherit; font-size: 15px; border: 0; outline: 0; background: rgba(0, 0, 0, .35); box-shadow: inset 0 0 0 1px var(--line); clip-path: var(--cut-s); }
+  .search:focus { box-shadow: inset 0 0 0 1px var(--cyan); }
+  .toplinks { margin-left: auto; display: flex; gap: 16px; }
+  .toplinks a { color: var(--dim); text-decoration: none; font: 600 13px var(--f-head); letter-spacing: 1.5px; text-transform: uppercase; }
+  .toplinks a:hover { color: var(--text); }
+  .menu-btn { display: none; width: 38px; height: 38px; background: none; border: 0; color: var(--text); font-size: 22px; cursor: pointer; }
+  /* Aufbau */
+  .layout { display: grid; grid-template-columns: 270px 1fr; min-height: calc(100vh - 60px); }
+  aside { position: sticky; top: 60px; height: calc(100vh - 60px); overflow: auto; padding: 18px 12px 30px; background: var(--panel); border-right: 1px solid var(--line); }
+  .sect { display: flex; align-items: center; gap: 8px; margin: 18px 8px 6px; font: 700 13px var(--f-head); letter-spacing: 2.5px; text-transform: uppercase; }
+  .sect img { width: 20px; height: 20px; }
+  .sect:first-child { margin-top: 0; }
+  aside a { display: block; padding: 6px 12px; color: #c8cede; text-decoration: none; font-size: 15px; clip-path: var(--cut-s); }
+  aside a:hover { background: rgba(255, 255, 255, .05); color: var(--text); }
+  aside a.on { background: linear-gradient(90deg, rgba(255, 106, 31, .25), transparent); color: var(--text); box-shadow: inset 3px 0 0 var(--orange); }
+  aside a.hide { display: none; }
+  main { padding: 36px clamp(18px, 4vw, 56px) 80px; max-width: 980px; }
+  article { display: none; }
+  article.on { display: block; animation: in .25s; }
+  @keyframes in { from { opacity: 0; transform: translateY(6px); } }
+  h1 { margin: 6px 0 18px; font: 900 clamp(30px, 4.5vw, 44px)/1.1 var(--f-head); letter-spacing: 4px; }
+  h1 span { color: var(--orange); }
+  h2 { margin: 30px 0 10px; font: 700 21px var(--f-head); letter-spacing: 2px; }
+  h3 { margin: 22px 0 6px; font: 700 16px var(--f-head); letter-spacing: 1.5px; color: var(--amber); }
+  p, li { color: #d3d9e6; }
+  ul, ol { padding-left: 22px; }
+  li { margin: 4px 0; }
+  code, kbd { font: 600 13px var(--f-mono); padding: 1px 6px; background: rgba(255, 255, 255, .07); color: var(--amber); border-radius: 3px; }
+  kbd { color: var(--text); box-shadow: inset 0 -2px 0 rgba(255, 255, 255, .12); }
+  .lead { font-size: 18px; color: #dbe0ec; }
+  .tip, .warn, .info { margin: 16px 0; padding: 14px 18px; clip-path: var(--cut-s); }
+  .tip { background: rgba(79, 240, 160, .08); box-shadow: inset 3px 0 0 var(--ok); }
+  .warn { background: rgba(255, 201, 60, .08); box-shadow: inset 3px 0 0 var(--amber); }
+  .info { background: rgba(46, 230, 255, .07); box-shadow: inset 3px 0 0 var(--cyan); }
+  .tip b:first-child, .warn b:first-child, .info b:first-child { display: block; font: 700 13px var(--f-head); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 2px; }
+  table { width: 100%; border-collapse: collapse; margin: 12px 0 20px; font-size: 14.5px; }
+  th { text-align: left; font: 600 11px var(--f-mono); letter-spacing: 1.5px; text-transform: uppercase; color: var(--cyan); padding: 8px 10px; border-bottom: 1px solid var(--line); }
+  td { padding: 8px 10px; border-bottom: 1px solid rgba(255, 255, 255, .05); color: #d3d9e6; vertical-align: top; }
+  tr:hover td { background: rgba(255, 255, 255, .02); }
+  .cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin: 18px 0; }
+  .card { display: block; padding: 18px; text-decoration: none; color: var(--text); background: var(--glass); clip-path: var(--cut); box-shadow: inset 0 0 0 1px var(--line); transition: transform .15s, box-shadow .15s; }
+  .card:hover { transform: translateY(-2px); box-shadow: inset 0 0 0 1px rgba(255, 150, 60, .5); }
+  .card img { width: 44px; height: 44px; }
+  .card b { display: block; margin: 8px 0 4px; font: 700 17px var(--f-head); letter-spacing: 2px; }
+  .card span { color: var(--dim); font-size: 14px; }
+  .cl-v { margin: 18px 0 4px; font: 700 16px var(--f-head); letter-spacing: 1.5px; }
+  .cl-v small { font: 500 11px var(--f-mono); color: var(--faint); margin-left: 8px; }
+  .pager { display: flex; justify-content: space-between; gap: 12px; margin-top: 40px; padding-top: 18px; border-top: 1px solid var(--line); }
+  .pager a { text-decoration: none; font: 600 14px var(--f-head); letter-spacing: 1px; }
+  .nores { color: var(--faint); padding: 8px 12px; font-size: 14px; }
+  footer { margin-top: 50px; color: var(--faint); font-size: 13px; }
+  footer a { color: var(--dim); margin-right: 14px; }
+  @media (max-width: 860px) {
+    .layout { grid-template-columns: 1fr; }
+    aside { position: fixed; z-index: 15; left: 0; top: 60px; width: 290px; transform: translateX(-100%); transition: transform .2s; }
+    aside.open { transform: none; box-shadow: 20px 0 60px rgba(0, 0, 0, .6); }
+    .menu-btn { display: block; } .toplinks { display: none; } .cards { grid-template-columns: 1fr; }
+    table { display: block; overflow-x: auto; }
+  }
+</style>
+</head>
+<body>
+<div class="top">
+  <button class="menu-btn" id="menuBtn" aria-label="Menü">☰</button>
+  <a class="brand" href="#start"><img src="assets/spark-icon.png" alt="">SPARK <span>WIKI</span></a>
+  <input class="search" id="q" type="search" placeholder="Wiki durchsuchen … (z. B. Reaktor, Push, Gruppe)">
+  <div class="toplinks"><a href="https://mrzock.github.io/spark/">SPARK</a><a href="https://mrzock.github.io/nachtwache/">BLACKOUT</a><a href="https://mrzock.github.io/spark-chat-web/">SPARK Chat</a></div>
+</div>
+<div class="layout">
+<aside id="nav"></aside>
+<main id="main">
+
+<!-- ================= START ================= -->
+<article id="start" data-sect="Start" data-title="Willkommen">
+  <span class="label">// SPARK Wiki</span>
+  <h1>WILLKOMMEN IM <span>SPARK WIKI</span></h1>
+  <p class="lead">Hier findest du alles zu <b>SPARK</b> – dem Launcher, dem Spiel <b>BLACKOUT</b> und dem Messenger <b>SPARK Chat</b>: Anleitungen, Steuerung, Werte, Tipps und Hilfe bei Problemen.</p>
+  <div class="cards">
+    <a class="card" href="#launcher-install"><img src="assets/spark-icon.png" alt=""><b>SPARK</b><span>Der Launcher: Spiele installieren, aktualisieren und starten.</span></a>
+    <a class="card" href="#bo-start"><img src="assets/blackout-icon.png" alt=""><b>BLACKOUT</b><span>3D-Survival: tagsüber bauen, nachts den Reaktor verteidigen.</span></a>
+    <a class="card" href="#chat-start"><img src="assets/chat-icon.png" alt=""><b>SPARK CHAT</b><span>Freunde, Gruppen und Anrufe – Ende-zu-Ende-verschlüsselt.</span></a>
+  </div>
+  <h2>Schnell gefunden</h2>
+  <ul>
+    <li><a href="#bo-keys">Tastenbelegung von BLACKOUT</a> · <a href="#bo-buildings">Alle Gebäude mit Kosten</a> · <a href="#bo-enemies">Gegner</a></li>
+    <li><a href="#chat-mobile">SPARK Chat aufs Handy</a> · <a href="#chat-push">Push-Benachrichtigungen</a> · <a href="#chat-safety">Melden & Blockieren</a></li>
+    <li><a href="#launcher-problems">Hilfe bei Problemen mit SPARK</a> · <a href="#news">Neuigkeiten aller Updates</a></li>
+  </ul>
+  <div class="info"><b>Tipp</b>Oben kannst du das ganze Wiki durchsuchen. Jede Seite hat eine eigene Adresse – einfach kopieren und weiterschicken.</div>
+</article>
+
+<!-- ================= SPARK LAUNCHER ================= -->
+<article id="launcher-install" data-sect="SPARK Launcher" data-title="SPARK installieren">
+  <span class="label">// SPARK Launcher</span>
+  <h1>SPARK <span>INSTALLIEREN</span></h1>
+  <p class="lead">SPARK ist der Game-Launcher von MrZock für Windows. Darüber installierst und startest du BLACKOUT und SPARK Chat.</p>
+  <ol>
+    <li>Öffne <a href="https://mrzock.github.io/spark/#download">mrzock.github.io/spark</a> und lade SPARK herunter.</li>
+    <li><b>Installer</b> (empfohlen): legt SPARK im Startmenü und auf dem Desktop an. <b>Portable</b>: einfach starten, ideal für USB-Sticks oder PCs ohne Admin-Rechte.</li>
+    <li>Datei starten – fertig.</li>
+  </ol>
+  <div class="warn"><b>„Der Computer wurde durch Windows geschützt“</b>SPARK ist nicht von einer Firma signiert, deshalb warnt Windows SmartScreen. Klick auf <b>Weitere Informationen → Trotzdem ausführen</b>. Wenn die <b>intelligente App-Steuerung</b> von Windows 11 die Datei komplett blockiert, lässt sie sich nicht einfach freigeben – dann bleibt nur die Web-Version der Spiele.</div>
+  <h2>Was SPARK speichert</h2>
+  <ul><li>Installierte Spiele und Einstellungen: <code>%APPDATA%\SPARK</code></li><li>Spielstände: <code>Dokumente\&lt;Spielname&gt;</code> – sie bleiben auch beim Deinstallieren erhalten.</li></ul>
+</article>
+
+<article id="launcher-games" data-sect="SPARK Launcher" data-title="Spiele & Apps installieren">
+  <span class="label">// SPARK Launcher</span>
+  <h1>SPIELE & APPS <span>INSTALLIEREN</span></h1>
+  <ol>
+    <li>Links in der <b>Bibliothek</b> ein Spiel oder eine App auswählen.</li>
+    <li><b>INSTALLIEREN</b> klicken. Im Fenster kannst du ankreuzen, ob eine <b>Desktop-Verknüpfung</b> erstellt werden soll.</li>
+    <li>Danach startest du mit <b>▶ SPIELEN</b> bzw. <b>▶ ÖFFNEN</b>.</li>
+  </ol>
+  <h2>Updates</h2>
+  <p>SPARK erkennt neue Versionen automatisch und lädt nur die Dateien, die sich geändert haben. Jede Datei wird per SHA-256 geprüft. Vor dem Update siehst du unter <b>„Neu im Update“</b>, was dazukommt; der Knopf <b>📜 Changelog</b> zeigt alle Versionen.</p>
+  <h2>Weitere Knöpfe</h2>
+  <table><tr><th>Knopf</th><th>Was er macht</th></tr>
+    <tr><td>Ohne Update spielen</td><td>Startet die installierte Version, ohne zu aktualisieren.</td></tr>
+    <tr><td>💾 Spielstände</td><td>Öffnet den Ordner mit den Spielständen.</td></tr>
+    <tr><td>🖥 Desktop-Verknüpfung</td><td>Legt eine Verknüpfung an (oder entfernt sie wieder). Doppelklick startet das Spiel direkt.</td></tr>
+    <tr><td>Deinstallieren</td><td>Entfernt das Spiel – Spielstände bleiben erhalten.</td></tr></table>
+</article>
+
+<article id="launcher-settings" data-sect="SPARK Launcher" data-title="Einstellungen">
+  <span class="label">// SPARK Launcher</span>
+  <h1>EIN<span>STELLUNGEN</span></h1>
+  <p>Oben rechts auf <b>⚙</b> klicken.</p>
+  <table><tr><th>Einstellung</th><th>Bedeutung</th></tr>
+    <tr><td>Automatisch nach Updates suchen</td><td>SPARK prüft beim Start, ob es eine neue Launcher-Version gibt.</td></tr>
+    <tr><td>Spiele im Vollbild starten</td><td>Jederzeit mit <kbd>F11</kbd> oder <kbd>Alt</kbd>+<kbd>Enter</kbd> umschaltbar.</td></tr>
+    <tr><td>Launcher beim Spielen ausblenden</td><td>Der Launcher kommt nach dem Spiel von selbst zurück.</td></tr>
+    <tr><td>SPARK Chat im Hintergrund weiterlaufen lassen</td><td>Beim Schließen läuft der Chat unten rechts (SPARK-Symbol) weiter – Nachrichten und Anrufe kommen an.</td></tr>
+    <tr><td>Mit Windows starten</td><td>SPARK startet beim Hochfahren unsichtbar, damit SPARK Chat erreichbar ist.</td></tr>
+    <tr><td>Design</td><td>Dunkel, Hell oder wie in Windows eingestellt.</td></tr>
+    <tr><td>Hintergrund-Effekte</td><td>Raster und Funken – aus spart Leistung auf schwachen PCs.</td></tr></table>
+</article>
+
+<article id="launcher-update" data-sect="SPARK Launcher" data-title="SPARK aktualisieren">
+  <span class="label">// SPARK Launcher</span>
+  <h1>SPARK <span>AKTUALISIEREN</span></h1>
+  <p>Gibt es eine neue SPARK-Version, leuchtet das <b>⚙</b> oben rechts. Unter „Was ist neu“ siehst du vorher die Änderungen. <b>JETZT AKTUALISIEREN</b> lädt die neue Version und installiert sie selbst – SPARK startet danach neu.</p>
+  <div class="info"><b>Portable-Version</b>Die neue Datei landet neben der alten und startet direkt. Die alte kannst du danach löschen.</div>
+  <p>Alle Versionen findest du auch auf <a href="https://github.com/MrZock/spark/releases">GitHub</a>.</p>
+</article>
+
+<article id="launcher-problems" data-sect="SPARK Launcher" data-title="Probleme lösen">
+  <span class="label">// SPARK Launcher</span>
+  <h1>PROBLEME <span>LÖSEN</span></h1>
+  <h3>„Offline · installierte Spiele laufen“</h3><p>SPARK erreicht GitHub nicht. Prüf dein Internet und klick oben auf <b>⟳</b>. Installierte Spiele funktionieren trotzdem.</p>
+  <h3>„Datei fehlerhaft heruntergeladen“</h3><p>Der Download wurde unterbrochen oder ist gerade unvollständig. Einfach nochmal auf Installieren/Update klicken – nach einer Minute klappt es meist.</p>
+  <h3>Update lässt sich nicht installieren</h3><p>Erst alle Spiele und den Chat schließen (auch unten rechts im SPARK-Symbol → Beenden) und Downloads abwarten.</p>
+  <h3>Der Chat ist geschlossen, aber SPARK läuft noch</h3><p>Das ist Absicht, damit Nachrichten ankommen. Unten rechts auf das SPARK-Symbol → <b>Beenden</b>, oder unter ⚙ „SPARK Chat im Hintergrund weiterlaufen lassen“ ausschalten.</p>
+  <h3>Windows blockiert SPARK</h3><p>Siehe <a href="#launcher-install">SPARK installieren</a>.</p>
+</article>
+
+<!-- ================= BLACKOUT ================= -->
+<article id="bo-start" data-sect="BLACKOUT" data-title="Überblick">
+  <span class="label">// BLACKOUT</span>
+  <h1>BLACK<span>OUT</span></h1>
+  <p class="lead">Die Welt ist dunkel. Dein <b>Reaktor</b> ist das letzte Licht. Tagsüber sammelst du Holz, Stein, Gold und Schrott und baust deine Basis aus – nachts stürmen Zombie-Wellen auf den Reaktor zu.</p>
+  <h2>Der Ablauf</h2>
+  <ul>
+    <li><b>Tag (2,5 Minuten):</b> Ressourcen abbauen, bauen, aufrüsten, die Welt erkunden (Ruinenstädte, Dörfer, Hütten mit Truhen, Bunker).</li>
+    <li><b>Nacht (gut 2 Minuten):</b> Wellen von Zombies greifen an, später auch Bosse. Halte durch, bis es hell wird.</li>
+    <li>Wird der <b>Reaktor zerstört, ist das Spiel vorbei</b>. Ziel: so viele Nächte wie möglich überleben – die besten Läufe landen in der Online-Rangliste.</li>
+  </ul>
+  <h2>Spielen</h2>
+  <ul><li>Im Browser: <a href="https://mrzock.github.io/nachtwache/">mrzock.github.io/nachtwache</a></li><li>Unter Windows über den <a href="#launcher-install">SPARK-Launcher</a> – mit Spielständen als Dateien und Vollbild.</li></ul>
+  <div class="tip"><b>Erste Schritte</b>Spitzhacke (<kbd>Q</kbd>) nehmen, Bäume und Felsen abbauen, dann mit <kbd>1</kbd> Barrikaden um den Reaktor bauen und mit <kbd>4</kbd> den ersten Geschützturm setzen. Vor der Nacht zurück zur Basis!</div>
+</article>
+
+<article id="bo-keys" data-sect="BLACKOUT" data-title="Steuerung">
+  <span class="label">// BLACKOUT</span>
+  <h1>STEUE<span>RUNG</span></h1>
+  <p>Alle Tasten lassen sich unter <b>⚙ Einstellungen → ⌨ Tasten</b> frei belegen. Das hier ist die Standard-Belegung.</p>
+  <h2>Bewegen</h2>
+  <table><tr><th>Aktion</th><th>Taste</th></tr>
+    <tr><td>Laufen</td><td><kbd>W</kbd> <kbd>A</kbd> <kbd>S</kbd> <kbd>D</kbd> oder Pfeiltasten</td></tr>
+    <tr><td>Springen</td><td><kbd>Leertaste</kbd></td></tr><tr><td>Fähigkeit</td><td><kbd>Shift</kbd></td></tr>
+    <tr><td>Umsehen / Angreifen</td><td>Maus / linke Maustaste</td></tr></table>
+  <h2>Waffen & Gegenstände</h2>
+  <table><tr><th>Aktion</th><th>Taste</th></tr>
+    <tr><td>Spitzhacke</td><td><kbd>Q</kbd></td></tr><tr><td>Schwert</td><td><kbd>E</kbd></td></tr><tr><td>Armbrust</td><td><kbd>R</kbd></td></tr>
+    <tr><td>Speer</td><td><kbd>C</kbd></td></tr><tr><td>Streitaxt</td><td><kbd>V</kbd></td></tr><tr><td>Plasmawerfer</td><td><kbd>B</kbd></td></tr>
+    <tr><td>Medkit</td><td><kbd>L</kbd></td></tr><tr><td>Granate</td><td><kbd>G</kbd></td></tr><tr><td>Molotow</td><td><kbd>Z</kbd></td></tr></table>
+  <h2>Bauen & Aktionen</h2>
+  <table><tr><th>Aktion</th><th>Taste</th></tr>
+    <tr><td>Gebäude wählen</td><td><kbd>1</kbd>–<kbd>9</kbd>, <kbd>0</kbd> (siehe <a href="#bo-buildings">Gebäude</a>)</td></tr>
+    <tr><td>Aktion / Stachelfalle</td><td><kbd>F</kbd></td></tr><tr><td>Kryoturm</td><td><kbd>J</kbd></td></tr>
+    <tr><td>Gebäude aufrüsten</td><td><kbd>U</kbd></td></tr><tr><td>Gebäude verkaufen</td><td><kbd>X</kbd> oder <kbd>Entf</kbd></td></tr>
+    <tr><td>Markierung setzen</td><td><kbd>Y</kbd></td></tr></table>
+  <h2>Fenster</h2>
+  <table><tr><th>Fenster</th><th>Taste</th></tr>
+    <tr><td>Inventar & Bauen</td><td><kbd>I</kbd></td></tr><tr><td>Schmiede</td><td><kbd>H</kbd></td></tr><tr><td>Skills</td><td><kbd>K</kbd></td></tr>
+    <tr><td>Karte</td><td><kbd>M</kbd></td></tr><tr><td>Spielerliste</td><td><kbd>Tab</kbd></td></tr><tr><td>Chat</td><td><kbd>T</kbd> oder <kbd>Enter</kbd></td></tr>
+    <tr><td>Ansicht wechseln (Ego/Third-Person)</td><td><kbd>O</kbd> oder <kbd>F5</kbd></td></tr><tr><td>Pause</td><td><kbd>P</kbd></td></tr><tr><td>Ton an/aus</td><td><kbd>N</kbd></td></tr></table>
+</article>
+
+<article id="bo-buildings" data-sect="BLACKOUT" data-title="Gebäude">
+  <span class="label">// BLACKOUT</span>
+  <h1>GEB<span>ÄUDE</span></h1>
+  <p>Gebaut wird im Bauradius um den Reaktor – er wächst mit jeder Reaktor-Stufe. Jedes Gebäude hat <b>5 Stufen</b> (aufrüsten mit <kbd>U</kbd>); ab Stufe 3 kostet das auch Schrott.</p>
+  <table><tr><th>Taste</th><th>Gebäude</th><th>Größe</th><th>Kosten (Stufe 1)</th><th>Beschreibung</th></tr>
+    <tr><td><kbd>1</kbd></td><td><b>Barrikade</b></td><td>1×1</td><td>4 Holz</td><td>Hält Zombies auf. Max. 250.</td></tr>
+    <tr><td><kbd>2</kbd></td><td><b>Tor</b></td><td>1×1</td><td>6 Holz, 4 Stein</td><td>Nur du (und dein Team) kannst hindurchgehen.</td></tr>
+    <tr><td><kbd>3</kbd></td><td><b>Goldbohrer</b></td><td>2×2</td><td>15 Holz, 15 Stein</td><td>Erzeugt passiv Gold.</td></tr>
+    <tr><td><kbd>4</kbd></td><td><b>Geschützturm</b></td><td>2×2</td><td>15 Holz, 10 Stein</td><td>Schnelle, schwache Pfeile. Reichweite 7.</td></tr>
+    <tr><td><kbd>5</kbd></td><td><b>Kanonenturm</b></td><td>2×2</td><td>15 Holz, 25 Stein</td><td>Flächenschaden.</td></tr>
+    <tr><td><kbd>6</kbd></td><td><b>Teslaturm</b></td><td>2×2</td><td>20 Holz, 20 Stein, 40 Gold</td><td>Kettenblitz springt zwischen 3–8 Zombies.</td></tr>
+    <tr><td><kbd>7</kbd></td><td><b>Mörserturm</b></td><td>2×2</td><td>25 Holz, 30 Stein, 60 Gold</td><td>Langsam, enormer Flächenschaden.</td></tr>
+    <tr><td><kbd>8</kbd></td><td><b>Recycler</b></td><td>2×2</td><td>30 Holz, 30 Stein, 20 Gold</td><td>Erntet Holz & Stein von Bäumen/Felsen in der Nähe.</td></tr>
+    <tr><td><kbd>0</kbd></td><td><b>Sanistation</b></td><td>2×2</td><td>25 Holz, 25 Stein, 50 Gold</td><td>Repariert Gebäude und heilt Spieler – auch nachts.</td></tr>
+    <tr><td><kbd>F</kbd></td><td><b>Stachelfalle</b></td><td>1×1</td><td>10 Holz, 10 Stein, 10 Gold</td><td>Schaden + Verlangsamung, nutzt sich ab.</td></tr>
+    <tr><td><kbd>J</kbd></td><td><b>Kryoturm</b></td><td>2×2</td><td>20 Holz, 30 Stein, 50 Gold</td><td>Eisige Aura: verlangsamt stark und friert langsam ein.</td></tr>
+    <tr><td><kbd>9</kbd></td><td><b>Reaktor</b></td><td>3×3</td><td>–</td><td>Herz der Basis, erzeugt Gold. Zerstört = Game Over.</td></tr></table>
+  <h2>Reaktor aufrüsten</h2>
+  <table><tr><th>Stufe</th><th>Kosten</th></tr><tr><td>2</td><td>80 Holz, 80 Stein, 120 Gold</td></tr><tr><td>3</td><td>200 Holz, 200 Stein, 500 Gold, 30 Schrott</td></tr><tr><td>4</td><td>400 Holz, 400 Stein, 1300 Gold, 90 Schrott</td></tr><tr><td>5</td><td>800 Holz, 800 Stein, 3000 Gold, 200 Schrott</td></tr></table>
+  <div class="tip"><b>Tipp</b>Höhere Reaktor-Stufen vergrößern den Bauradius und schalten stärkere Waffen in der Schmiede frei.</div>
+</article>
+
+<article id="bo-weapons" data-sect="BLACKOUT" data-title="Waffen & Rüstung">
+  <span class="label">// BLACKOUT</span>
+  <h1>WAFFEN & <span>RÜSTUNG</span></h1>
+  <table><tr><th>Waffe</th><th>Taste</th><th>Schaden</th><th>Freischalten</th></tr>
+    <tr><td><b>Spitzhacke</b> – baut Holz, Stein & Gold ab</td><td><kbd>Q</kbd></td><td>12</td><td>von Anfang an</td></tr>
+    <tr><td><b>Schwert</b></td><td><kbd>E</kbd></td><td>32</td><td>von Anfang an</td></tr>
+    <tr><td><b>Armbrust</b> – Fernkampf</td><td><kbd>R</kbd></td><td>20</td><td>von Anfang an</td></tr>
+    <tr><td><b>Speer</b> – große Reichweite</td><td><kbd>C</kbd></td><td>30</td><td>60 Holz, 40 Stein, 40 Gold</td></tr>
+    <tr><td><b>Streitaxt</b> – Rundumschlag</td><td><kbd>V</kbd></td><td>56</td><td>150 Holz, 80 Stein, 100 Gold (Reaktor 2)</td></tr>
+    <tr><td><b>Plasmawerfer</b> – Fernkampf</td><td><kbd>B</kbd></td><td>34</td><td>100 Holz, 150 Stein, 250 Gold, 20 Schrott (Reaktor 2)</td></tr></table>
+  <p>In der <b>Schmiede</b> (<kbd>H</kbd>) rüstest du Waffen in 5 Stufen auf: <b>Stein → Eisen → Stahl → Kristall → Gold</b> (je Stufe +30 % Schaden).</p>
+  <h2>Rüstung</h2>
+  <table><tr><th>Teil</th><th>Wirkung (Stufe 1 → 4)</th></tr>
+    <tr><td>⛑ Helm</td><td>−4 % bis −14 % Schaden</td></tr><tr><td>🦺 Weste</td><td>−6 % bis −20 % Schaden, +10 bis +50 HP</td></tr>
+    <tr><td>🧤 Handschuhe</td><td>+4 % bis +16 % Angriffstempo</td></tr><tr><td>🥾 Stiefel</td><td>+4 % bis +14 % Lauftempo</td></tr></table>
+  <p>Rüstungsstufen: <b>Schrott → Leder → Stahl → Militär</b>.</p>
+</article>
+
+<article id="bo-enemies" data-sect="BLACKOUT" data-title="Gegner">
+  <span class="label">// BLACKOUT</span>
+  <h1>GEG<span>NER</span></h1>
+  <p>Mit jeder Nacht werden die Zombies stärker (mehr Leben und Schaden).</p>
+  <table><tr><th>Gegner</th><th>Leben</th><th>Besonderheit</th></tr>
+    <tr><td><b>Zombie</b></td><td>45</td><td>Der Standard-Gegner.</td></tr>
+    <tr><td><b>Läufer</b></td><td>24</td><td>Sehr schnell, aber schwach.</td></tr>
+    <tr><td><b>Brute</b></td><td>240</td><td>Langsam, zerlegt Gebäude (ab Nacht 3).</td></tr>
+    <tr><td><b>Spucker</b></td><td>50</td><td>Greift aus der Ferne an.</td></tr>
+    <tr><td><b>Bomber</b></td><td>35</td><td>Explodiert – riesiger Schaden an Gebäuden.</td></tr>
+    <tr><td><b>Schamane</b></td><td>75</td><td>Heilt Zombies in der Nähe – zuerst ausschalten! (ab Nacht 5)</td></tr>
+    <tr><td><b>Panzerzombie</b></td><td>170</td><td>Gepanzert: nimmt 45 % weniger Schaden.</td></tr>
+    <tr><td><b>Schattenwesen</b></td><td>95</td><td>Schnell, lebt im Schattenreich.</td></tr>
+    <tr><td><b>Boss</b></td><td>2300</td><td>Kommt in späteren Nächten, bringt 150 Gold.</td></tr></table>
+</article>
+
+<article id="bo-world" data-sect="BLACKOUT" data-title="Welt, Biome & Tiere">
+  <span class="label">// BLACKOUT</span>
+  <h1>WELT & <span>TIERE</span></h1>
+  <h2>Biome</h2>
+  <p>Wiese · Wald · Wüste · Schneeland · Sumpf · Schattenreich · Ruinenstadt · Bunker. Dazu Dörfer und verlassene Hütten – in Hütten stehen <b>Truhen mit Loot</b> (füllen sich nach 10 Minuten wieder auf).</p>
+  <h2>Tiere</h2>
+  <p>Jedes Biom hat eigene Tiere. Jagen bringt Gold, Erfahrung und Heilung.</p>
+  <table><tr><th>Tier</th><th>Leben</th><th>Verhalten</th></tr>
+    <tr><td>Hase, Hirsch, Fuchs, Huhn, Frosch, Ratte, Kamel</td><td>8–110</td><td>Flüchten</td></tr>
+    <tr><td>Wildschwein</td><td>90</td><td>Wehrt sich</td></tr>
+    <tr><td>Wolf</td><td>70</td><td>Greift an, kommt im <b>Rudel</b> (Schneeland)</td></tr>
+    <tr><td>Bär</td><td>260</td><td>Greift an, sehr stark</td></tr>
+    <tr><td>Skorpion</td><td>35</td><td>Greift an (Wüste)</td></tr></table>
+</article>
+
+<article id="bo-online" data-sect="BLACKOUT" data-title="Online spielen">
+  <span class="label">// BLACKOUT</span>
+  <h1>ONLINE <span>SPIELEN</span></h1>
+  <ol>
+    <li>Im Hauptmenü auf <b>Online</b> → <b>Hosten</b>. Oben erscheint ein <b>Raum-Code</b> (4 Zeichen).</li>
+    <li>Freunde wählen <b>Online → Beitreten</b> und geben den Code ein – bis zu <b>16 Spieler</b>.</li>
+  </ol>
+  <div class="tip"><b>Mit SPARK Chat einladen</b>Im Chat auf 🎮 klicken – SPARK Chat erkennt deinen Raum-Code automatisch. Dein Freund klickt auf <b>▶ BEITRETEN</b> und landet direkt im Spiel.</div>
+  <h2>Im Online-Spiel</h2>
+  <ul><li>Teams und Clans, Handel und PvP</li><li>Online-Rangliste: abschaltbar unter ⚙ Einstellungen → „Online-Rangliste“</li><li>Funktioniert auch im Schul-WLAN (über den Spielserver)</li></ul>
+</article>
+
+<article id="bo-commands" data-sect="BLACKOUT" data-title="Chat-Befehle">
+  <span class="label">// BLACKOUT</span>
+  <h1>CHAT-<span>BEFEHLE</span></h1>
+  <p>Chat mit <kbd>T</kbd> öffnen und Befehl eingeben.</p>
+  <table><tr><th>Befehl</th><th>Was er macht</th></tr>
+    <tr><td><code>/hilfe</code></td><td>Zeigt alle Befehle.</td></tr>
+    <tr><td><code>/liste</code> oder <code>/online</code></td><td>Wer ist im Spiel?</td></tr>
+    <tr><td><code>/w Name Text</code></td><td>Private Nachricht (auch <code>/msg</code>, <code>/flüstern</code>).</td></tr>
+    <tr><td><code>/team Text</code></td><td>Nachricht nur an dein Team.</td></tr>
+    <tr><td><code>/clan …</code></td><td>Clan-Befehle.</td></tr>
+    <tr><td><code>/handel Name</code></td><td>Handel mit einem Spieler anfragen.</td></tr>
+    <tr><td><code>/pos</code></td><td>Zeigt deine Position.</td></tr>
+    <tr><td><code>/afk</code></td><td>Als abwesend markieren.</td></tr></table>
+</article>
+
+<article id="bo-saves" data-sect="BLACKOUT" data-title="Spielstände & Einstellungen">
+  <span class="label">// BLACKOUT</span>
+  <h1>SPIELSTÄNDE & <span>EINSTELLUNGEN</span></h1>
+  <ul>
+    <li>Es gibt <b>3 Speicherplätze</b>. Im Browser liegen sie im Speicher des Browsers, im SPARK-Launcher als Dateien in <code>Dokumente\BLACKOUT</code>.</li>
+    <li>Unter ⚙ Einstellungen: Grafik, Ton, Tastenbelegung, Online-Rangliste und mehr.</li>
+    <li>Was jedes Update bringt, steht im Hauptmenü unter <b>📜 Neuigkeiten</b> – oder hier unter <a href="#news">Neuigkeiten</a>.</li>
+  </ul>
+</article>
+
+<!-- ================= SPARK CHAT ================= -->
+<article id="chat-start" data-sect="SPARK Chat" data-title="Loslegen">
+  <span class="label">// SPARK Chat</span>
+  <h1>SPARK CHAT: <span>LOSLEGEN</span></h1>
+  <p class="lead">SPARK Chat ist ein Messenger für Freunde, Gruppen und Sprachanrufe – Ende-zu-Ende-verschlüsselt, kostenlos und ohne Werbung. <a href="https://mrzock.github.io/spark-chat-web/">Zur Webseite</a></p>
+  <ol>
+    <li>Öffne SPARK Chat: im Browser (<a href="https://mrzock.github.io/spark-chat/">mrzock.github.io/spark-chat</a>), als <a href="#chat-mobile">App auf dem Handy</a> oder im SPARK-Launcher.</li>
+    <li><b>Registrieren</b>: Benutzername (3–20 Zeichen) und Passwort (mindestens 8 Zeichen). Du musst mindestens <b>16 Jahre</b> alt sein.</li>
+    <li>Fertig – füge oben links Freunde über ihren Benutzernamen hinzu.</li>
+  </ol>
+  <div class="warn"><b>Passwort gut merken!</b>Dein Passwort verlässt nie dein Gerät – deshalb kann es niemand zurücksetzen, auch wir nicht. Vergessen = neues Konto.</div>
+  <p>„Angemeldet bleiben“: Im SPARK-Launcher speichert Windows deine Anmeldung verschlüsselt. Im Browser nur auf deinem eigenen Gerät ankreuzen.</p>
+</article>
+
+<article id="chat-friends" data-sect="SPARK Chat" data-title="Freunde & Gruppen">
+  <span class="label">// SPARK Chat</span>
+  <h1>FREUNDE & <span>GRUPPEN</span></h1>
+  <h2>Freunde</h2>
+  <ul><li>Oben links den <b>genauen Benutzernamen</b> eingeben und <b>+</b> klicken. Dein Freund nimmt die Anfrage mit ✔ an.</li>
+    <li>Man kann nur Freunden schreiben und sie anrufen – Fremde können dich nicht einfach anschreiben.</li>
+    <li>Über ⋯ im Chat: <b>Spitzname</b> vergeben (nur für dich sichtbar), Sicherheitsnummer, Freund entfernen.</li></ul>
+  <h2>Gruppen</h2>
+  <ul><li>Bei „Gruppen“ auf <b>＋ NEU</b>, Namen eingeben und Freunde ankreuzen – bis zu <b>32 Mitglieder</b>.</li>
+    <li>Der <b>Gruppenleiter</b> kann umbenennen, Freunde hinzufügen und Mitglieder entfernen. Verlässt er die Gruppe, wird ein anderes Mitglied Leiter.</li>
+    <li>Jeder kann eine Gruppe jederzeit verlassen (⋯ → Gruppe verlassen).</li></ul>
+  <h2>Status</h2>
+  <p>Unten links auf deinen Namen tippen und einen <b>Status-Text</b> setzen (z. B. „In der Schule“). Mit <b>Unsichtbar</b> (⚙) sehen dich Freunde als offline.</p>
+</article>
+
+<article id="chat-messages" data-sect="SPARK Chat" data-title="Nachrichten">
+  <span class="label">// SPARK Chat</span>
+  <h1>NACH<span>RICHTEN</span></h1>
+  <table><tr><th>Funktion</th><th>So geht's</th></tr>
+    <tr><td>Bild senden</td><td>📎 tippen, einfügen (<kbd>Strg</kbd>+<kbd>V</kbd>) oder ins Fenster ziehen. Wird automatisch verkleinert.</td></tr>
+    <tr><td>Sprachnachricht</td><td>🎤 tippen, sprechen, <b>SENDEN</b> (bis 2 Minuten).</td></tr>
+    <tr><td>Reagieren</td><td>Über die Nachricht fahren (Handy: antippen) → 😀 → 👍 ❤️ 😂 😮 😢 🔥</td></tr>
+    <tr><td>Antworten</td><td>↩ – die Nachricht wird als Zitat angezeigt.</td></tr>
+    <tr><td>Bearbeiten</td><td>✎ bei eigenen Nachrichten (oder <kbd>↑</kbd> im leeren Eingabefeld).</td></tr>
+    <tr><td>Löschen</td><td>🗑 → „Für alle löschen“ (eigene, bis 7 Tage) oder „Nur für mich“.</td></tr>
+    <tr><td>BLACKOUT-Einladung</td><td>🎮 im Chat – siehe <a href="#bo-online">Online spielen</a>.</td></tr></table>
+  <h2>Die Haken</h2>
+  <table><tr><th>Zeichen</th><th>Bedeutung</th></tr><tr><td>◌</td><td>wird gesendet</td></tr><tr><td>⏳</td><td>Freund ist offline – kommt an, sobald er online ist (bis 7 Tage)</td></tr><tr><td>✓</td><td>beim Server angekommen</td></tr><tr><td>✓✓</td><td>auf dem Gerät deines Freundes angekommen</td></tr></table>
+  <div class="info"><b>Verlauf</b>Deine Chats liegen nur auf deinem Gerät (verschlüsselt). Auf einem neuen Gerät startest du mit leeren Chats.</div>
+</article>
+
+<article id="chat-calls" data-sect="SPARK Chat" data-title="Anrufe">
+  <span class="label">// SPARK Chat</span>
+  <h1>AN<span>RUFE</span></h1>
+  <ul>
+    <li>Im Chat mit einem Freund auf <b>📞</b> – geht, wenn er online ist.</li>
+    <li>Im Anruf: <b>🎙 Mikro</b> stumm schalten, <b>🔈/🔊</b> lauter stellen (Lautsprecher), <b>AUFLEGEN</b>.</li>
+    <li>Anrufe sind verschlüsselt und laufen über den Server – deshalb klappen sie auch im Schul-WLAN.</li>
+    <li>Ist die Verbindung kurz weg (Funkloch, Handy im Hintergrund), wird der Anruf bis zu <b>40 Sekunden</b> gehalten und geht danach weiter.</li>
+    <li>Rufen sich zwei gleichzeitig an, werden sie direkt verbunden.</li>
+  </ul>
+  <div class="tip"><b>Tipp</b>Mit Kopfhörern gibt es kein Echo. Lautsprecher/Kopfhörer wählst du am PC unter ⚙ → „Lautsprecher / Kopfhörer“.</div>
+</article>
+
+<article id="chat-push" data-sect="SPARK Chat" data-title="Benachrichtigungen & Push">
+  <span class="label">// SPARK Chat</span>
+  <h1>BENACHRICH<span>TIGUNGEN</span></h1>
+  <table><tr><th>Wo</th><th>Wie</th></tr>
+    <tr><td>SPARK-Launcher (Windows)</td><td>Windows-Benachrichtigungen. Der Chat läuft nach dem Schließen unten rechts weiter.</td></tr>
+    <tr><td>Web-App am Handy</td><td><b>Push</b> unter ⚙ → „📱 Push-Benachrichtigungen“ einschalten (Einwilligung nötig). Kommt auch bei geschlossener App.</td></tr>
+    <tr><td>Android-App (APK)</td><td>Benachrichtigungen, solange die App im Hintergrund läuft.</td></tr></table>
+  <p>Push-Nachrichten zeigen nur <b>„SPARK Chat – Du hast eine neue Nachricht“</b> – ohne Absender und Inhalt. Abschalten jederzeit in ⚙; beim Abmelden geht Push automatisch aus.</p>
+  <div class="warn"><b>iPhone</b>Push gibt es nur, wenn SPARK Chat als App auf dem Home-Bildschirm installiert ist (ab iOS 16.4) – siehe <a href="#chat-mobile">aufs Handy</a>.</div>
+</article>
+
+<article id="chat-mobile" data-sect="SPARK Chat" data-title="Aufs Handy">
+  <span class="label">// SPARK Chat</span>
+  <h1>AUFS <span>HANDY</span></h1>
+  <h2>iPhone & iPad – ohne PC</h2>
+  <ol><li>In <b>Safari</b> <a href="https://mrzock.github.io/spark-chat-web/#download">die Webseite</a> öffnen und auf <b>📲 Installieren</b> tippen → <b>Zulassen</b>.</li>
+    <li><b>Einstellungen</b> → oben <b>„Profil geladen“</b> → <b>Installieren</b> (Code eingeben) → <b>Installieren</b>.</li>
+    <li>SPARK Chat ist jetzt auf dem Home-Bildschirm und startet im Vollbild.</li></ol>
+  <p>Das Profil enthält nur das App-Symbol. „Nicht überprüft“ ist normal. Alternativ von Hand: Safari → Teilen → „Zum Home-Bildschirm“.</p>
+  <h2>Android</h2>
+  <ul><li><b>APK</b> von der <a href="https://mrzock.github.io/spark-chat-web/#download">Webseite</a> laden, öffnen, „Installation aus dieser Quelle erlauben“, installieren.</li>
+    <li>Oder in Chrome: ⋮ → „App installieren“ (mit Push).</li></ul>
+  <h2>Für Bastler: iPhone-Test-App (IPA)</h2>
+  <p>Mit Sideloadly am PC und deiner Apple-ID – läuft 7 Tage. Anleitung auf der <a href="https://mrzock.github.io/spark-chat-web/#download">Webseite</a>.</p>
+</article>
+
+<article id="chat-safety" data-sect="SPARK Chat" data-title="Sicherheit, Melden & Konto">
+  <span class="label">// SPARK Chat</span>
+  <h1>SICHERHEIT & <span>KONTO</span></h1>
+  <h2>Verschlüsselung</h2>
+  <p>Nachrichten, Bilder, Sprachnachrichten und Anrufe sind Ende-zu-Ende-verschlüsselt (ECDH P-256 + AES-256-GCM). Über ⋯ → <b>Sicherheitsnummer</b> könnt ihr prüfen, dass niemand dazwischen sitzt. Ändert sich der Schlüssel eines Freundes, warnt SPARK Chat mit ⚠.</p>
+  <h2>Melden & Blockieren</h2>
+  <ul><li>⋯ → <b>🚩 Melden</b>: Grund wählen, optional die letzten 20 Nachrichten mitschicken (nur so können wir sie prüfen).</li>
+    <li>⋯ → <b>⛔ Blockieren</b>: Die Person kann dir keine Anfragen, Nachrichten oder Anrufe mehr schicken – und erfährt nichts davon.</li>
+    <li>In Gruppen: Gruppe → Mitglieder → 🚩.</li></ul>
+  <div class="warn"><b>Akute Gefahr?</b>Polizei <b>110</b>. Hilfe für Kinder und Jugendliche: Nummer gegen Kummer <b>116 111</b>.</div>
+  <h2>Dein Konto</h2>
+  <ul><li>⚙ → <b>Meine Daten anzeigen</b>: alles, was der Server über dich speichert.</li><li>⚙ → <b>Passwort ändern</b>.</li><li>⚙ → <b>Konto löschen</b>: sofort und endgültig.</li></ul>
+  <p>Regeln: <a href="https://mrzock.github.io/spark/nutzungsbedingungen.html">Nutzungsbedingungen</a> · Daten: <a href="https://mrzock.github.io/spark/datenschutz.html#chat">Datenschutz</a></p>
+</article>
+
+<article id="chat-problems" data-sect="SPARK Chat" data-title="Probleme lösen">
+  <span class="label">// SPARK Chat</span>
+  <h1>PROBLEME <span>LÖSEN</span></h1>
+  <h3>„Server wacht auf …“</h3><p>Der kostenlose Server schläft nach längerer Pause. Das erste Verbinden kann bis zu einer Minute dauern.</p>
+  <h3>Nachricht zeigt ⏳</h3><p>Dein Freund ist offline. Sie wird zugestellt, sobald er online kommt.</p>
+  <h3>Kein Ton im Anruf</h3><p>Mikrofon-Zugriff erlauben (Browser: Schloss-Symbol neben der Adresse; Handy: Einstellungen → Apps → SPARK Chat). Kopfhörer helfen gegen Echo.</p>
+  <h3>„Benutzername oder Passwort falsch“</h3><p>Nach 10 falschen Versuchen ist das Konto 15 Minuten gesperrt. Ein vergessenes Passwort kann nicht zurückgesetzt werden.</p>
+  <h3>Gelbe Warnung „Sicherheitsschlüssel hat sich geändert“</h3><p>Dein Freund hat sein Konto neu erstellt. Frag ihn persönlich und bestätige dann den neuen Schlüssel.</p>
+</article>
+
+<!-- ================= ALLGEMEIN ================= -->
+<article id="news" data-sect="Allgemein" data-title="Neuigkeiten">
+  <span class="label">// Allgemein</span>
+  <h1>NEUIG<span>KEITEN</span></h1>
+  <p>Alle Updates von BLACKOUT und SPARK Chat – direkt aus dem SPARK-Katalog.</p>
+  <div id="newsList">Lade …</div>
+</article>
+
+<article id="legal" data-sect="Allgemein" data-title="Kontakt & Rechtliches">
+  <span class="label">// Allgemein</span>
+  <h1>KONTAKT & <span>RECHTLICHES</span></h1>
+  <ul>
+    <li><a href="https://mrzock.github.io/spark/datenschutz.html">Datenschutzerklärung</a></li>
+    <li><a href="https://mrzock.github.io/spark/nutzungsbedingungen.html">Nutzungsbedingungen (SPARK Chat)</a></li>
+    <li><a href="https://mrzock.github.io/spark/datenschutz.html#kontakt">Kontakt</a></li>
+  </ul>
+  <h2>Alle Seiten</h2>
+  <ul>
+    <li><a href="https://mrzock.github.io/spark/">SPARK – Launcher</a> (<a href="https://github.com/MrZock/spark">GitHub</a>)</li>
+    <li><a href="https://mrzock.github.io/nachtwache/">BLACKOUT – im Browser spielen</a> (<a href="https://github.com/MrZock/nachtwache">GitHub</a>)</li>
+    <li><a href="https://mrzock.github.io/spark-chat-web/">SPARK Chat – Webseite</a> · <a href="https://mrzock.github.io/spark-chat/">Web-App</a> (<a href="https://github.com/MrZock/spark-chat">GitHub</a>)</li>
+    <li>SPARK Wiki (<a href="https://github.com/MrZock/spark-wiki">GitHub</a>)</li>
+  </ul>
+  <p>Diese Seite setzt keine Cookies und nutzt kein Tracking. Für die Neuigkeiten lädt sie den Spiele-Katalog von GitHub Pages.</p>
+</article>
+
+<footer>© <span id="yr">2026</span> MrZock · SPARK Wiki · <a href="https://mrzock.github.io/spark/datenschutz.html">Datenschutz</a><a href="#legal">Kontakt</a></footer>
+</main>
+</div>
+<script>
+'use strict';
+const $ = id => document.getElementById(id), arts = [...document.querySelectorAll('article')];
+const ICON = { 'SPARK Launcher': 'assets/spark-icon.png', 'BLACKOUT': 'assets/blackout-icon.png', 'SPARK Chat': 'assets/chat-icon.png' };
+// Seitenleiste aus den Artikeln bauen
+let html = '', lastSect = '';
+for (const a of arts) {
+  const s = a.dataset.sect;
+  if (s !== lastSect) { html += '<div class="sect">' + (ICON[s] ? '<img src="' + ICON[s] + '" alt="">' : '') + s + '</div>'; lastSect = s; }
+  html += '<a href="#' + a.id + '" data-id="' + a.id + '">' + a.dataset.title + '</a>';
+}
+$('nav').innerHTML = html + '<div class="nores" id="nores" hidden>Nichts gefunden.</div>';
+// Vor/Zurück unter jedem Artikel
+arts.forEach((a, i) => {
+  const p = arts[i - 1], n = arts[i + 1];
+  a.insertAdjacentHTML('beforeend', '<div class="pager">' + (p ? '<a href="#' + p.id + '">← ' + p.dataset.title + '</a>' : '<span></span>') + (n ? '<a href="#' + n.id + '">' + n.dataset.title + ' →</a>' : '') + '</div>');
+});
+function show() {
+  const id = (location.hash || '#start').slice(1), a = $(id) && $(id).tagName === 'ARTICLE' ? $(id) : $('start');
+  for (const x of arts) x.classList.toggle('on', x === a);
+  for (const l of document.querySelectorAll('aside a')) l.classList.toggle('on', l.dataset.id === a.id);
+  document.title = (a.id === 'start' ? '' : a.dataset.title + ' – ') + 'SPARK Wiki';
+  $('nav').classList.remove('open'); scrollTo(0, 0);
+  if (a.id === 'news') loadNews();
+}
+addEventListener('hashchange', show); show();
+$('menuBtn').onclick = () => $('nav').classList.toggle('open');
+// Suche: filtert die Seitenleiste nach Titel und Text; Enter öffnet den ersten Treffer
+$('q').addEventListener('input', () => {
+  const q = $('q').value.trim().toLowerCase(); let any = false;
+  for (const a of arts) { const hit = !q || (a.dataset.title + ' ' + a.textContent).toLowerCase().includes(q); document.querySelector('aside a[data-id="' + a.id + '"]').classList.toggle('hide', !hit); any = any || hit; }
+  for (const s of document.querySelectorAll('.sect')) { let n = s.nextElementSibling, vis = false; while (n && n.tagName === 'A') { if (!n.classList.contains('hide')) vis = true; n = n.nextElementSibling; } s.style.display = vis ? '' : 'none'; }
+  $('nores').hidden = any; if (q) $('nav').classList.add('open');
+});
+$('q').addEventListener('keydown', e => { if (e.key === 'Enter') { const f = document.querySelector('aside a:not(.hide)'); if (f) { location.hash = f.dataset.id; $('q').blur(); } } });
+// Neuigkeiten aus dem SPARK-Katalog
+let newsDone = false;
+function loadNews() {
+  if (newsDone) return; newsDone = true;
+  const esc = s => String(s).replace(/[&<>]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' }[c]));
+  fetch('https://mrzock.github.io/nachtwache/spark/catalog/games.json', { cache: 'no-store' }).then(r => r.json()).then(c => {
+    $('newsList').innerHTML = c.games.map(g => '<h2>' + esc(g.name) + ' <small style="color:var(--faint);font:500 13px var(--f-mono)">aktuell ' + esc(g.version) + '</small></h2>' +
+      (g.changelog || []).map(e => '<div class="cl-v">' + esc(e.version) + '<small>' + (e.date ? new Date(e.date).toLocaleDateString('de-DE') : '') + '</small></div><ul>' + (e.items || []).map(i => '<li>' + esc(i) + '</li>').join('') + '</ul>').join('')).join('');
+  }).catch(() => { $('newsList').textContent = 'Neuigkeiten konnten nicht geladen werden.'; newsDone = false; });
+}
+$('yr').textContent = new Date().getFullYear();
+</script>
+</body>
+</html>
